@@ -1,0 +1,522 @@
+Notes:
+------
+#define UWRITE(buf)     uart_write_bytes(EX_UART_NUM, (const char*)buf, strlen(buf));
+...one cycle for strlen, one cycle for uart writing...
+
+There is 8 more pins those can be used, or 6 + an I2C bus:
+- GPIO 8, 9 (or I2C)
+- GPIO 17, 21, 39, 40, 41, 42
+
+Useful commands:
+- Install/update ESP-IDF:
+	cd ~/esp/esp-idf
+	./install.sh
+- Start ESP environment:
+	cd ~/esp/esp-idf
+	. ./export.sh
+- Build ESP32 project:
+	idf.py build | tee ./build.log
+- Rebuild ESP32 project:
+	rm -rfd ./build
+	idf.py build | tee ./build.log
+- Flash ESP32 project:
+	idf.py -p /dev/ttyUSB0 flash
+- Monitor ESP32 project:
+	idf.py -p /dev/ttyUSB0 monitor
+- Monitor ESP32 project + monitor.log:
+	idf.py -p /dev/ttyUSB0 monitor | tee ./monitor.log
+- ConfigMenu for ESP32 project:
+	idf.py menuconfig
+- Go to Remete2 Gatekeeper source:
+	cd ~/WORK/LWorks/ESP32/safe-remote-switch-ha3flt-itf
+
+***
+TODO:
+-----
+- Van valami tamogatas a verziok beegetesere - utananezni
+
+- Miert kerul kozel 30 k belso memoria lefoglalasaba minden webpage+websocket nyitasa? Csokkenteni!
+
+- Kell csinalni valamit egy (ures) flash eseteben az erase-en kivul, vagy van valami "format"?
+- Ha a flash init hibara fut, erase es init megint (egy alkalommal) csak a settings eseteben?
+
+- LMxx sensor, 50 fok felett riasztas, tuzjelzot bekotni, DT-22?
+
+- Pico/W5500:
+  - remote server UART input <--> remote server UART output,
+      but if there is a client connection then
+  - remote server UART input <--> Ethernet <--> local client UART <--> USB <--> UcxLog on local Computer,
+      CW keying and PTT by (virtual) RTS and DTR (if I'm right), and by the local paddle on the client Pico board
+  - Pico CDC implementation is needed to handle handshakes? Could it run from the user application on the board?
+
+- active low, active high, continuous level or pulse type digital outputs...
+
+- use a different root.html (undefine in the main.c) if a certain definition is not added
+  to the project make files as ... to make the project "unbranded" for the public
+
+- ha túl rég volt frissítve az oldal (wss is disconnected or set to a large repeat interval, etc.) elfedni a
+  kapcsolókat egy félig átlátszó layerrel, amin egy gomb van: Reload page
+
+- polling time for each user if no websocket - should be alterable by a control on the web page
+
+- get/setrules command (not a set, these are individual setting examples):
+    - enable SW1 high if SW2 and SW5 high
+    - (automatically) set SW1 high if SW2 or SW5 high
+    - (automatically) set SW1 low if SW2 or SW5 high
+    - if SW5 (goes) low->high then set SW2 low after 3 seconds
+    - if SW2 set (manually) high then
+      1. (automatically) set SW4 to high first
+      2. (automatically) set SW5 to high after 5 sec
+      3. then (automatically) set SW2 after 3 seconds (this is a sequencer...)
+    etc.
+
+- Firefox: Secure Connection Failed / An error occurred during a connection to 192.168.1.117. PR_END_OF_FILE_ERROR
+  SSL error? after a full night successful WSS communication after disconnect. Is it detectable in the ESP32?
+  Then do a watchdog reset or so... E.g. if there is a connection but no WSS activity shortly after, we may restart
+  the entire shebang.
+
+- JS client needs to monitor keepalive msgs, and reinit socket communication if disconnect or no activity
+  (the PC wakes up after sleeping, etc.)
+
+- Module stopped working after Pressing F5 and opening WS many times --> monitor it.
+
+- Print MOTD at new connections
+
+- LCD with backlight on/off, it lights for a minute after logins, commands, logouts, etc.
+
+- We might need to disable socket connections to the ESP32 when, e.g. we initialize time, or reading some other curcial parameters
+
+- Get the time from the internet (gateway address? DHCP), set in ESP32, write besides the switches (?)
+
+- Open a "console" to communicate with the ESP32 using console commands. Some commands should not be available from the web page!
+- So create a level for the commands, also user needs levels.
+
+- If there is no more socket reserved for websocket so we cannot connect, warn the user that the switches will not be refreshed
+  automatically, but a polling can be turned on off (and saved).
+
+- Login page, Help page, "No JS" warning
+
+- eliminate this id possible caused by the close() functions in the
+  http get handlers, nr. of lines: webserver's max_clients - 1
+ httpd_sess: enum_function: Closing invalid socket -1
+ httpd_sess: enum_function: Closing invalid socket -1
+ ...
+ httpd_sess: enum_function: Closing invalid socket -1
+ httpd_sess: enum_function: Closing invalid socket -1
+ httpd_sess: enum_function: Closing invalid socket -1
+
+- No need for log messages added in the srsw_commands.c if the called function returns an error if it writes messages on error
+
+- add favicon
+
+- ESP32 needs to store and use wifi AP name and password, and a command to change them
+
+- Memory allocation error handler: write log of the event before reset
+
+- PIN... if high at reset for a longer time, do a 'resetall'
+
+- Read "Establishing Wi-Fi or Ethernet Connection" section in
+  examples/protocols/README.md for more information about this function.
+
+- RED LED on errors. Hook?
+
+- 1. kapcsoló: normál bekapcsolás (beállítható időzítéssel kikapcsol, max. 1 óra?) Activity pin from Remete
+- 8. kapcsoló: folyamatos bekapcsolás (esetleg ugyanúgy állítható az időzítés, csak nagyobbakat is megenged, max. 24 óra?)
+- bemenetekből is meg lehetne jeleníteni párat, analóg bemenet sem lenne rossz (áramköri leválasztás kell)
+- LED-ek a relékhez és pl. hiba-LED, esetleg LCD kijelző
+- felhasználók, szintek (adminisztátor a lekérdezéshez)
+- kapcsolók állapotának mentése
+- napló a használatról (mekkora kell?)
+- felhasználók listájának lekérése (weben)
+- soros vonalon:
+   - master reset (összes adat törlődik), kiváltható egy gomb nyomvatartásával is pl. 5 másodpercig
+   - felhasználók törlése
+   - felhasználók listájának lekérése
+   - felhasználó hozzáadása, törlése, lekérése
+   - napló kiolvasása távolról
+
+***
+openssl req -newkey rsa:2048 -nodes -keyout prvtkey.pem -x509 -days 3650 -out servercert.pem -subj "/CN=Safe Remote Switch, HG5C"
+
+https://www.esp32.com/viewtopic.php?t=1295
+https://github.com/MalteJ/embedded-esp32-component-udp_logging/blob/master/udp_logging.c
+
+esp_err_t nvs_flash_init(void) Returns
+    ESP_OK if storage was successfully initialized.
+    ESP_ERR_NVS_NO_FREE_PAGES if the NVS storage contains no empty pages (which may happen if NVS partition was truncated)
+    ESP_ERR_NOT_FOUND if no partition with label “nvs” is found in the partition table
+    ESP_ERR_NO_MEM in case memory could not be allocated for the internal structures
+    one of the error codes from the underlying flash storage driver
+    error codes from nvs_flash_read_security_cfg API (when “NVS_ENCRYPTION” is enabled).
+    error codes from nvs_flash_generate_keys API (when “NVS_ENCRYPTION” is enabled).
+    error codes from nvs_flash_secure_init_partition API (when “NVS_ENCRYPTION” is enabled) .
+
+static void update_pulse_count(void)
+{
+    const char* namespace = "plusecnt";
+    const char* count_key = "count";
+
+    ESP_ERROR_CHECK( nvs_flash_init() );
+    nvs_handle_t handle;
+    ESP_ERROR_CHECK( nvs_open(namespace, NVS_READWRITE, &handle));
+    uint32_t pulse_count = 0;
+    esp_err_t err = nvs_get_u32(handle, count_key, &pulse_count);
+    assert(err == ESP_OK || err == ESP_ERR_NVS_NOT_FOUND);
+    printf("Read pulse count from NVS: %5d\n", pulse_count);
+
+    /* ULP program counts signal edges, convert that to the number of pulses */
+    uint32_t pulse_count_from_ulp = (ulp_edge_count & UINT16_MAX) / 2;
+    /* In case of an odd number of edges, keep one until next time */
+    ulp_edge_count = ulp_edge_count % 2;
+    printf("Pulse count from ULP: %5d\n", pulse_count_from_ulp);
+
+    /* Save the new pulse count to NVS */
+    pulse_count += pulse_count_from_ulp;
+    ESP_ERROR_CHECK(nvs_set_u32(handle, count_key, pulse_count));
+    ESP_ERROR_CHECK(nvs_commit(handle));
+    nvs_close(handle);
+    printf("Wrote updated pulse count to NVS: %5d\n", pulse_count);
+}
+
+esp_err_t save_restart_counter(void)
+{
+    nvs_handle_t my_handle;
+    esp_err_t err;
+
+    // Open
+    err = nvs_open(STORAGE_NAMESPACE, NVS_READWRITE, &my_handle);
+    if (err != ESP_OK) return err;
+
+    // Read
+    int32_t restart_counter = 0; // value will default to 0, if not set yet in NVS
+    err = nvs_get_i32(my_handle, "restart_conter", &restart_counter);
+    if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND) return err;
+
+    // Write
+    restart_counter++;
+    err = nvs_set_i32(my_handle, "restart_conter", restart_counter);
+    if (err != ESP_OK) return err;
+
+    // Commit written value.
+    // After setting any values, nvs_commit() must be called to ensure changes are written
+    // to flash storage. Implementations may write to storage at other times,
+    // but this is not guaranteed.
+    err = nvs_commit(my_handle);
+    if (err != ESP_OK) return err;
+
+    // Close
+    nvs_close(my_handle);
+    return ESP_OK;
+}
+
+/* Save new run time value in NVS
+   by first reading a table of previously saved values
+   and then adding the new value at the end of the table.
+   Return an error if anything goes wrong
+   during this process.
+ */
+esp_err_t save_run_time(void)
+{
+    nvs_handle_t my_handle;
+    esp_err_t err;
+
+    // Open
+    err = nvs_open(STORAGE_NAMESPACE, NVS_READWRITE, &my_handle);
+    if (err != ESP_OK) return err;
+
+    // Read the size of memory space required for blob
+    size_t required_size = 0;  // value will default to 0, if not set yet in NVS
+    err = nvs_get_blob(my_handle, "run_time", NULL, &required_size);
+    if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND) return err;
+
+    // Read previously saved blob if available
+    uint32_t* run_time = malloc(required_size + sizeof(uint32_t));
+    if (required_size > 0) {
+        err = nvs_get_blob(my_handle, "run_time", run_time, &required_size);
+        if (err != ESP_OK) {
+            free(run_time);
+            return err;
+        }
+    }
+
+    // Write value including previously saved blob if available
+    required_size += sizeof(uint32_t);
+    run_time[required_size / sizeof(uint32_t) - 1] = xTaskGetTickCount() * portTICK_PERIOD_MS;
+    err = nvs_set_blob(my_handle, "run_time", run_time, required_size);
+    free(run_time);
+
+    if (err != ESP_OK) return err;
+
+    // Commit
+    err = nvs_commit(my_handle);
+    if (err != ESP_OK) return err;
+
+    // Close
+    nvs_close(my_handle);
+    return ESP_OK;
+}
+
+///////////////////////////////////////////////////////////////
+void initialize_sntp(void)
+{
+    ESP_LOGI(TAG, "Initializing SNTP");
+    sntp_setoperatingmode(SNTP_OPMODE_POLL);
+    sntp_setservername(0, "pool.ntp.org");
+#ifdef CONFIG_SNTP_TIME_SYNC_METHOD_SMOOTH
+    sntp_set_sync_mode(SNTP_SYNC_MODE_SMOOTH);
+#endif
+    sntp_init();
+}
+
+static void obtain_time(void)
+{
+    /**
+     * NTP server address could be aquired via DHCP,
+     * see LWIP_DHCP_GET_NTP_SRV menuconfig option
+     */
+#ifdef LWIP_DHCP_GET_NTP_SRV
+    sntp_servermode_dhcp(1);
+#endif
+
+    // wait for time to be set
+    int retry = 0;
+    const int retry_count = 10;
+    while (sntp_get_sync_status() == SNTP_SYNC_STATUS_RESET && ++retry < retry_count) {
+        ESP_LOGI(TAG, "Waiting for system time to be set... (%d/%d)", retry, retry_count);
+        vTaskDelay(2000 / portTICK_PERIOD_MS);
+    }
+}
+
+
+    uart_flush(EX_UART_NUM);
+
+
+
+    /*size_t len;
+    if ( (err = nvs_get_str(nvs, key, NULL, &len)) == ESP_OK) {
+        char *str = (char *)malloc(len);
+        if ( (err = nvs_get_str(nvs, key, str, &len)) == ESP_OK) {
+            printf("%s\n", str);
+        }
+        free(str);
+    }*/
+
+***
+380,381c380,381
+< # CONFIG_COMPILER_OPTIMIZATION_DEFAULT is not set
+< CONFIG_COMPILER_OPTIMIZATION_SIZE=y
+---
+> CONFIG_COMPILER_OPTIMIZATION_DEFAULT=y
+> # CONFIG_COMPILER_OPTIMIZATION_SIZE is not set
+568c568
+< CONFIG_HTTPD_PURGE_BUF_LEN=16
+---
+> CONFIG_HTTPD_PURGE_BUF_LEN=32
+824c824
+< CONFIG_ESP32_WIFI_DYNAMIC_RX_BUFFER_NUM=16
+---
+> CONFIG_ESP32_WIFI_DYNAMIC_RX_BUFFER_NUM=32
+828c828
+< CONFIG_ESP32_WIFI_CACHE_TX_BUFFER_NUM=24
+---
+> CONFIG_ESP32_WIFI_CACHE_TX_BUFFER_NUM=32
+937a938
+> CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER=y
+978c979
+< # CONFIG_HEAP_ABORT_WHEN_ALLOCATION_FAILS is not set
+---
+> CONFIG_HEAP_ABORT_WHEN_ALLOCATION_FAILS=y
+1016c1017
+< # CONFIG_LWIP_SO_REUSE_RXTOALL is not set
+---
+> CONFIG_LWIP_SO_REUSE_RXTOALL=y
+1027c1028
+< CONFIG_LWIP_TCPIP_RECVMBOX_SIZE=8
+---
+> CONFIG_LWIP_TCPIP_RECVMBOX_SIZE=32
+1052,1053c1053,1054
+< CONFIG_LWIP_MAX_ACTIVE_TCP=32
+< CONFIG_LWIP_MAX_LISTENING_TCP=32
+---
+> CONFIG_LWIP_MAX_ACTIVE_TCP=16
+> CONFIG_LWIP_MAX_LISTENING_TCP=16
+1060,1061c1061,1062
+< CONFIG_LWIP_TCP_SND_BUF_DEFAULT=2880
+< CONFIG_LWIP_TCP_WND_DEFAULT=2880
+---
+> CONFIG_LWIP_TCP_SND_BUF_DEFAULT=5744
+> CONFIG_LWIP_TCP_WND_DEFAULT=5744
+1065,1066c1066,1067
+< # CONFIG_LWIP_TCP_OVERSIZE_MSS is not set
+< CONFIG_LWIP_TCP_OVERSIZE_QUARTER_MSS=y
+---
+> CONFIG_LWIP_TCP_OVERSIZE_MSS=y
+> # CONFIG_LWIP_TCP_OVERSIZE_QUARTER_MSS is not set
+1533,1536c1534,1537
+< # CONFIG_OPTIMIZATION_LEVEL_DEBUG is not set
+< # CONFIG_COMPILER_OPTIMIZATION_LEVEL_DEBUG is not set
+< CONFIG_OPTIMIZATION_LEVEL_RELEASE=y
+< CONFIG_COMPILER_OPTIMIZATION_LEVEL_RELEASE=y
+---
+> CONFIG_OPTIMIZATION_LEVEL_DEBUG=y
+> CONFIG_COMPILER_OPTIMIZATION_LEVEL_DEBUG=y
+> # CONFIG_OPTIMIZATION_LEVEL_RELEASE is not set
+> # CONFIG_COMPILER_OPTIMIZATION_LEVEL_RELEASE is not set
+1629c1630
+< CONFIG_TCPIP_RECVMBOX_SIZE=8
+---
+> CONFIG_TCPIP_RECVMBOX_SIZE=32
+1634,1635c1635,1636
+< CONFIG_TCP_SND_BUF_DEFAULT=2880
+< CONFIG_TCP_WND_DEFAULT=2880
+---
+> CONFIG_TCP_SND_BUF_DEFAULT=5744
+> CONFIG_TCP_WND_DEFAULT=5744
+1638,1639c1639,1640
+< # CONFIG_TCP_OVERSIZE_MSS is not set
+< CONFIG_TCP_OVERSIZE_QUARTER_MSS=y
+---
+> CONFIG_TCP_OVERSIZE_MSS=y
+> # CONFIG_TCP_OVERSIZE_QUARTER_MSS is not set
+
+***
+${IDF_PATH}/components/esp_https_server/include
+
+***
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x8 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fcd0108,len:0x15c8
+load:0x403b6000,len:0x8c8
+load:0x403ba000,len:0x2c04
+entry 0x403b61c4
+[0;32mI (24) boot: ESP-IDF v4.4-dev-2594-ga20df743f1-dirty 2nd stage bootloader[0m
+[0;32mI (25) boot: compile time 16:57:21[0m
+[0;32mI (25) boot: chip revision: 0[0m
+[0;32mI (28) boot.esp32s3: SPI Speed      : 80MHz[0m
+[0;32mI (33) boot.esp32s3: SPI Mode       : DIO[0m
+[0;32mI (38) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (43) boot: Enabling RNG early entropy source...[0m
+[0;33mW (48) bootloader_random: RNG for ESP32-S3 not currently supported[0m
+
+[0;32mI (55) boot: Partition Table:[0m
+[0;32mI (59) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (66) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (73) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (81) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (88) boot: End of partition table[0m
+
+[0;32mI (92) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=090e0h ( 37088) map[0m
+[0;32mI (108) esp_image: segment 1: paddr=00019108 vaddr=3fc90dd0 size=0253ch (  9532) load[0m
+[0;32mI (111) esp_image: segment 2: paddr=0001b64c vaddr=40374000 size=049cch ( 18892) load[0m
+[0;32mI (122) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1b660h (112224) map[0m
+[0;32mI (147) esp_image: segment 4: paddr=0003b688 vaddr=403789cc size=08404h ( 33796) load[0m
+[0;32mI (154) esp_image: segment 5: paddr=00043a94 vaddr=50000000 size=00010h (    16) load[0m
+
+[0;32mI (160) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (160) boot: Disabling RNG early entropy source...[0m
+[0;33mW (164) bootloader_random: RNG for ESP32-S3 not currently supported[0m
+[0;32mI (182) cpu_start: Pro cpu up.[0m
+[0;32mI (182) cpu_start: Starting app cpu, entry point is 0x40375104[0m
+[0;32mI (0) cpu_start: App cpu up.[0m
+[0;32mI (196) cpu_start: Pro cpu start user code[0m
+[0;32mI (196) cpu_start: cpu freq: 160000000[0m
+[0;32mI (196) cpu_start: Application information:[0m
+[0;32mI (199) cpu_start: Project name:     led_strip[0m
+[0;32mI (204) cpu_start: App version:      1[0m
+[0;32mI (209) cpu_start: Compile time:     Aug 17 2021 17:09:47[0m
+[0;32mI (215) cpu_start: ELF file SHA256:  bda59acbde3f7a0e...[0m
+[0;32mI (221) cpu_start: ESP-IDF:          v4.4-dev-2594-ga20df743f1-dirty[0m
+
+[0;32mI (228) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (235) heap_init: At 3FC94220 len 0004BDE0 (303 KiB): D/IRAM[0m
+[0;32mI (241) heap_init: At 3FCE0000 len 0000EE34 (59 KiB): STACK/DRAM[0m
+[0;32mI (248) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+
+[0;32mI (255) spi_flash: detected chip: generic[0m
+[0;32mI (259) spi_flash: flash io: dio[0m
+[0;33mW (263) spi_flash: Detected size(8192k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (277) cpu_start: Starting scheduler on PRO CPU.[0m
+[0;32mI (0) cpu_start: Starting scheduler on APP CPU.[0m
+[0;32mI (308) example: LED Rainbow Chase Start[0m
+[0;32mI (308) example: USB initialization[0m
+[0;32mI (308) tusb_desc: 
+┌─────────────────────────────────┐
+│  USB Device Descriptor Summary  │
+├───────────────────┬─────────────┤
+│bDeviceClass       │ 239         │
+├───────────────────┼─────────────┤
+│bDeviceSubClass    │ 2           │
+├───────────────────┼─────────────┤
+│bDeviceProtocol    │ 1           │
+├───────────────────┼─────────────┤
+│bMaxPacketSize0    │ 64          │
+├───────────────────┼─────────────┤
+│idVendor           │ 0x303a      │
+├───────────────────┼─────────────┤
+│idProduct          │ 0x4001      │
+├───────────────────┼─────────────┤
+│bcdDevice          │ 0x100       │
+├───────────────────┼─────────────┤
+│iManufacturer      │ 0x1         │
+├───────────────────┼─────────────┤
+│iProduct           │ 0x2         │
+├───────────────────┼─────────────┤
+│iSerialNumber      │ 0x3         │
+├───────────────────┼─────────────┤
+│bNumConfigurations │ 0x1         │
+└───────────────────┴─────────────┘[0m
+[0;32mI (478) TinyUSB: TinyUSB Driver installed[0m
+[0;32mI (488) example: USB initialization DONE[0m
+[0;32mI (1388) example: log -> UART[0m
+example: print -> stdout
+example: print -> stderr
+[0;32mI (2888) example: log -> UART[0m
+example: print -> stdout
+example: print -> stderr
+[0;32mI (4388) example: log -> UART[0m
+example: print -> stdout
+example: print -> stderr
+[0;32mI (5888) example: log -> UART[0m
+example: print -> stdout
+example: print -> stderr
+[0;32mI (7388) example: log -> UART[0m
+example: print -> stdout
+example: print -> stderr
+[0;32mI (8888) example: log -> UART[0m
+example: print -> stdout
+example: print -> stderr
+[0;32mI (10388) example: log -> UART[0m
+example: print -> stdout
+example: print -> stderr
+[0;32mI (11888) example: log -> UART[0m
+Executing action: monitor
+Running idf_monitor in directory /home/tki/WORK/LWorks/ESP32/esp32-wss-real-time-remote-manager
+Executing "/home/tki/.espressif/python_env/idf5.0_py3.9_env/bin/python /home/tki/esp/esp-idf-v5.0_test/tools/idf_monitor.py -p /dev/ttyUSB0 -b 115200 --toolchain-prefix xtensa-esp32s3-elf- --target esp32s3 /home/tki/WORK/LWorks/ESP32/esp32-wss-real-time-remote-manager/build/esp32-wss-real-time-remote-manager.elf -m '/home/tki/.espressif/python_env/idf5.0_py3.9_env/bin/python' '/home/tki/esp/esp-idf-v5.0_test/tools/idf.py' '-p' '/dev/ttyUSB0'"...
+
+***
+#define BUTTON_PIN            0
+
+diff -y sdkconfig sdkconfig.old |less
+
+***
+Build/rebuild project:
+---
+rm -rfd ./build
+idf.py build | tee ./build.log
+
+Upload firmware:
+---
+idf.py -p /dev/ttyUSB0 flash
+
+Monitor board (exit by Ctrl-]):
+---
+idf.py -p /dev/ttyUSB0 monitor | tee ./monitor.log
+
+Erase whole flash
+---
+idf.py erase-flash
+
+***

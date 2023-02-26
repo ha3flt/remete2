@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<link rel="stylesheet" href="remote_switch.css" type="text/css">
+	<script defer src="remote_switch.js" type="text/javascript"></script>
+	<title>The Bridge at HG5C, Gyömrő</title>
+</head>
+<body onload="StartFunction()">
+	<!-- Switches -->
+	<form id="Remote switch">
+		<div class="divTable">
+			<div class="divRow">
+				<div class="text_normal">Remete - <span class="color_bright">THE BRIDGE</span> - HG5C</div>
+				<div class="text_normal">&nbsp;</div>
+			</div>
+			<div class="divRow">
+				<div class="divCell" align="center">
+					<div class="text_sw">Switch 1</div>
+					<span class="switch switch-border1 switch-border2">
+						<input id="switch1" type="checkbox" onchange="SetSwitch('switch1')"/><label for="switch1"></label>
+						<span class="switch-top"></span><span class="switch-shadow"></span><span class="switch-handle"></span>
+						<span class="switch-handle-left"></span>
+						<span class="switch-handle-right"></span>
+						<span class="switch-handle-top"></span>
+						<span class="switch-handle-bottom"></span>
+						<span class="switch-handle-base"></span>
+						<span class="switch-led switch-led-green">
+							<span class="switch-led-border switch-led-light switch-led-glow"></span>
+						</span>
+					</span>
+				</div>
+				<div class="divCell" align="center">
+					<div class="text_sw">Switch 2</div>
+					<span class="switch switch-border1 switch-border2">
+						<input id="switch2" type="checkbox" onchange="SetSwitch('switch2')"/><label for="switch2"></label>
+						<span class="switch-top"></span><span class="switch-shadow"></span><span class="switch-handle"></span>
+						<span class="switch-handle-left"></span>
+						<span class="switch-handle-right"></span>
+						<span class="switch-handle-top"></span>
+						<span class="switch-handle-bottom"></span>
+						<span class="switch-handle-base"></span>
+						<span class="switch-led switch-led-green">
+							<span class="switch-led-border switch-led-light switch-led-glow"></span>
+						</span>
+					</span>
+				</div>
+				<div class="divCell" align="center">
+					<div class="text_sw">Switch 3</div>
+					<span class="switch switch-border1 switch-border2">
+						<input id="switch3" type="checkbox" onchange="SetSwitch('switch3')"/><label for="switch3"></label>
+						<span class="switch-top"></span><span class="switch-shadow"></span><span class="switch-handle"></span>
+						<span class="switch-handle-left"></span>
+						<span class="switch-handle-right"></span>
+						<span class="switch-handle-top"></span>
+						<span class="switch-handle-bottom"></span>
+						<span class="switch-handle-base"></span>
+						<span class="switch-led switch-led-green">
+							<span class="switch-led-border switch-led-light switch-led-glow"></span>
+						</span>
+					</span>
+				</div>
+				<div class="divCell" align="center">
+					<div class="text_sw">Switch 4</div>
+					<span class="switch switch-border1 switch-border2">
+						<input id="switch4" type="checkbox" onchange="SetSwitch('switch4')"/><label for="switch4"></label>
+						<span class="switch-top"></span><span class="switch-shadow"></span><span class="switch-handle"></span>
+						<span class="switch-handle-left"></span>
+						<span class="switch-handle-right"></span>
+						<span class="switch-handle-top"></span>
+						<span class="switch-handle-bottom"></span>
+						<span class="switch-handle-base"></span>
+						<span class="switch-led switch-led-yellow">
+							<span class="switch-led-border switch-led-light switch-led-glow"></span>
+						</span>
+					</span>
+				</div>
+				<div class="divCell" align="center">
+					<div class="text_sw">Switch 5</div>
+					<span class="switch switch-border1 switch-border2">
+						<input id="switch5" type="checkbox" onchange="SetSwitch('switch5')"/><label for="switch5"></label>
+						<span class="switch-top"></span><span class="switch-shadow"></span><span class="switch-handle"></span>
+						<span class="switch-handle-left"></span>
+						<span class="switch-handle-right"></span>
+						<span class="switch-handle-top"></span>
+						<span class="switch-handle-bottom"></span>
+						<span class="switch-handle-base"></span>
+						<span class="switch-led switch-led-yellow">
+							<span class="switch-led-border switch-led-light switch-led-glow"></span>
+						</span>
+					</span>
+				</div>
+				<div class="divCell" align="center">
+					<div class="text_sw">Switch 6</div>
+					<span class="switch switch-border1 switch-border2">
+						<input id="switch6" type="checkbox" onchange="SetSwitch('switch6')"/><label for="switch6"></label>
+						<span class="switch-top"></span><span class="switch-shadow"></span><span class="switch-handle"></span>
+						<span class="switch-handle-left"></span>
+						<span class="switch-handle-right"></span>
+						<span class="switch-handle-top"></span>
+						<span class="switch-handle-bottom"></span>
+						<span class="switch-handle-base"></span>
+						<span class="switch-led switch-led-yellow">
+							<span class="switch-led-border switch-led-light switch-led-glow"></span>
+						</span>
+					</span>
+				</div>
+				<div class="divCell" align="center">
+					<div class="text_sw">Switch 7</div>
+					<span class="switch switch-border1 switch-border2">
+						<input id="switch7" type="checkbox" onchange="SetSwitch('switch7')"/><label for="switch7"></label>
+						<span class="switch-top"></span><span class="switch-shadow"></span><span class="switch-handle"></span>
+						<span class="switch-handle-left"></span>
+						<span class="switch-handle-right"></span>
+						<span class="switch-handle-top"></span>
+						<span class="switch-handle-bottom"></span>
+						<span class="switch-handle-base"></span>
+						<span class="switch-led switch-led-red">
+							<span class="switch-led-border switch-led-light switch-led-glow"></span>
+						</span>
+					</span>
+				</div>
+				<div class="divCell" align="center">
+					<div class="text_sw">Switch 8</div>
+					<span class="switch switch-border1 switch-border2">
+						<input id="switch8" type="checkbox" onchange="SetSwitch('switch8')"/><label for="switch8"></label>
+						<span class="switch-top"></span><span class="switch-shadow"></span><span class="switch-handle"></span>
+						<span class="switch-handle-left"></span>
+						<span class="switch-handle-right"></span>
+						<span class="switch-handle-top"></span>
+						<span class="switch-handle-bottom"></span>
+						<span class="switch-handle-base"></span>
+						<span class="switch-led switch-led-red">
+							<span class="switch-led-border switch-led-light switch-led-glow"></span>
+						</span>
+					</span>
+				</div>
+			</div>
+			<div class="text_footer">
+				Remete @ HA5BVK by HA3FLT, HA2OS
+			</div>
+		</div>
+	</form>
+
+	<!-- Temporary for testing -->
+	<form action="" class="form-inline" id="connectForm" style="margin-top:2rem;">
+		<div class="text_small" style="text-align:left; font-family:mono;">
+			Test/debug:
+		</div>
+		<div class="divTable">
+			<div class="divRow">
+				<div class="input-append">
+					<input type="text" class="input-large" value="" id="wsServer"/>
+					<button class="btn" type="submit" id="RemoteConnection" onclick="RemoteConnection()">Connect</button>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<!-- Terminal -->
+	<br /><br />
+	<div id="term_screen">
+		<div id="term_container">
+			<table id="term_logger">
+				<tr>
+					<pre>
+						<td id="term_wrapper">
+						</td>
+					</pre>
+				</tr>
+				<tr>
+					<td style="width: 100%;">
+						<input id="input_source" type="text" onkeyup="termSendKeyup(event)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" autofocus>
+					</td>
+					<td>
+						<button id="btn_submit" type="button" onclick="termSend()">Send</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

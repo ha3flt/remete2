@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "esp32-wss-real-time-remote-manager",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"makefile.extensionOutputFolder": "./.vscode"
+	}
+}
