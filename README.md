@@ -7,13 +7,14 @@ The name and theme come from a Hungarian play on words, based on the similarity 
 
 ***
 Components:
-<!--| Name                   | Description                                                                                   |-->
-<!--| ---------------------- | --------------------------------------------------------------------------------------------- |-->
-<!--| Gatekeeper (Házmester) | Remote site management hardware and software (power management, lightning protection, etc.)   |-->
-<!--| **Eremite (Remete2)**  | Remote control hardware and software (radios, antennas, rotators, etc.), the namegiver        |-->
-<!--| Friar (Szőrzetes)      | Client-side software and optionally some hardware as well, perhaps for physical controls      |-->
-<!--| - Regulator            | - Part of the Friar, the client-side of Eremite's (Remete2) protocol                          |-->
-<!--| - Visionary            | - Part of the Friar, the UI of Eremite (Remete2) clients                                      |-->
+<!--| Name                    | Description                                                                                   |-->
+<!--| ----------------------- | --------------------------------------------------------------------------------------------- |-->
+<!--| Gatekeeper (Házmester)  | Remote site management hardware and software (power management, lightning protection, etc.)   |-->
+<!--| **Eremite (Remete2)**   | Remote control hardware and software (radios, antennas, rotators, etc.), the namegiver.       |-->
+<!--| Friar (Szőrzetes)       | Client-side software and optionally some hardware as well, perhaps for physical controls.     |-->
+<!--| - Regulator             | - Eremite (Remete2) client service. Part of the Friar.                                        |-->
+<!--| - Visionary             | - Eremite (Remete2) client UI applications. Part of the Friar.                                |-->
+<!--| Developer Documentation | Public documentation can be found at: https://github.com/ha3flt/remete2/wiki/                 |-->
 
 <table>
   <tr>
@@ -26,18 +27,22 @@ Components:
   </tr>
   <tr>
     <td><strong>Eremite (Remete2)</strong></td>
-    <td>Remote control hardware and software (radios, antennas, rotators, etc.), the namegiver</td>
+    <td>Remote control hardware and software (radios, antennas, rotators, etc.), the namegiver.</td>
   </tr>
   <tr>
     <td>Friar (Szőrzetes)</td>
-    <td>Client-side software and optionally some hardware as well, perhaps for physical controls</td>
+    <td>Client-side software and optionally some hardware as well, perhaps for physical controls.</td>
   </tr>
   <tr>
     <td><ul><li>Regulator</li></ul></td>
-    <td><ul><li>Part of the Friar, the client-side of Eremite's (Remete2) protocol</li></ul></td>
+    <td><ul><li>Eremite (Remete2) client service. Part of the Friar.</li></ul></td>
   </tr>
   <tr><td><ul><li>Visionary</li></ul></td>
-    <td><ul><li>Part of the Friar, the UI of Eremite (Remete2) clients</li></ul></td>
+    <td><ul><li>Eremite (Remete2) client UI applications. Part of the Friar.</li></ul></td>
+  </tr>
+  <tr>
+    <td>Developer Documentation</td>
+    <td>Public documentation can be found at: https://github.com/ha3flt/remete2/wiki/</td>
   </tr>
 </table>
 

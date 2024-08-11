@@ -1,2 +1,2 @@
 ## Friar (Szőrzetes)
-### The client of Eremite (Remete2).
+### Client-side software for Eremite (Remete2) and optionally some hardware as well, perhaps for physical controls.

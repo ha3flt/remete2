@@ -1,2 +1,2 @@
 ## Regulator
-### Part of the Friar, Eremite (Remete2) client service.
+### Eremite (Remete2) client service. Part of the Friar.

@@ -1,2 +1,2 @@
 ## Visionary
-### Part of the Friar, Eremite (Remete2) client UI applications.
+### Eremite (Remete2) client UI applications. Part of the Friar.

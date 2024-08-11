@@ -1,10 +1,10 @@
 ## Gatekeeper (Házmester)
-### Remote site management hardware and software (switching power, lightning protection, etc.)
+### Remote site management hardware and software (power management, lightning protection, etc.)
 
 Content:
-| Nr. | Project name                       | Short description                                                           |
-| --- | ---------------------------------- | --------------------------------------------------------------------------- |
-|  1. | esp32-wss-real-time-remote-manager | Always-on device to control power of all remote devices and the environment |
+| Nr. | Project name                       | Short description                                                            |
+| --- | ---------------------------------- | ---------------------------------------------------------------------------- |
+|  1. | esp32-wss-real-time-remote-manager | Always-on device to control power of all remote devices and the environment. |
 
 Longer descriptions:
 1. esp32-wss-real-time-remote-manager
