@@ -1,6 +1,11 @@
 #include <QCoreApplication>
 #include <QLocale>
+#include <QTimer>   //TEMPORARY!!!
 #include <QTranslator>
+
+#include <iostream>
+#include <sstream>
+#include <string>
 
 int main(int argc, char *argv[])
 {
@@ -27,7 +32,47 @@ int main(int argc, char *argv[])
     // If you do not need a running Qt event loop, remove the call
     // to a.exec() or use the Non-Qt Plain C++ Application template.
 
-    puts("Executing Qt application...");
+    puts("Executing Qt console application...");
 
-    return a.exec();
+    //////////
+    //TEMPORARY!!!
+    do {
+        putchar('>');
+
+        std::string input;
+        std::getline(std::cin, input);
+
+        std::istringstream iss(input);
+        std::vector<std::string> tokens;
+        std::string token;
+        while (iss >> token) {
+            tokens.push_back(token);
+        }
+
+        if (tokens.empty()) {
+            continue;   // E.g. an Enter pressed
+        }
+
+        std::string commandName = tokens[0];
+        tokens.erase(tokens.begin()); // Remove the command name from the tokens
+
+        if (commandName == "help" || commandName == "h" || commandName == "?") {
+            puts("Help: (c)onnect, (d)isconnect, E(x)it");
+        } else if (commandName == "connect" || commandName == "c") {
+            puts(commandName.c_str());
+        } else if (commandName == "disconnect" || commandName == "d") {
+            puts(commandName.c_str());
+        } else if (commandName == "exit" || commandName == "x") {
+            puts(commandName.c_str());
+            //QTimer::singleShot(1000, &a, &QCoreApplication::quit);
+            break;
+        }
+    } while (true);
+    //////////
+
+    puts("Exiting Qt console application...");
+    return 0;
+
+    //puts("Entering Qt application event loop...");
+    //return a.exec();
 }
