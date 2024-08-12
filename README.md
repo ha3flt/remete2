@@ -12,7 +12,7 @@ Components:
 <!--| Gatekeeper (Házmester)  | Remote site management hardware and software (power management, lightning protection, etc.)   |-->
 <!--| **Eremite (Remete2)**   | Remote control hardware and software (radios, antennas, rotators, etc.), the namegiver.       |-->
 <!--| Friar (Szőrzetes)       | Client-side software and optionally some hardware as well, perhaps for physical controls.     |-->
-<!--| - Regulator             | - Eremite (Remete2) client service. Part of the Friar.                                        |-->
+<!--| - Intermediary          | - Eremite (Remete2) client service. Part of the Friar.                                        |-->
 <!--| - Visionary             | - Eremite (Remete2) client UI applications. Part of the Friar.                                |-->
 <!--| Developer Documentation | Public documentation can be found at: https://github.com/ha3flt/remete2/wiki/                 |-->
 
@@ -34,7 +34,7 @@ Components:
     <td>Client-side software and optionally some hardware as well, perhaps for physical controls.</td>
   </tr>
   <tr>
-    <td><ul><li>Regulator</li></ul></td>
+    <td><ul><li>Intermediary</li></ul></td>
     <td><ul><li>Eremite (Remete2) client service. Part of the Friar.</li></ul></td>
   </tr>
   <tr><td><ul><li>Visionary</li></ul></td>
