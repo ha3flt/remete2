@@ -1,5 +1,5 @@
 # remete2
-## Eremite (Remete2) ham radio remote site management and remote control
+## Eremite (Remete2) is a ham radio remote site management and remote control system that employs standalone hosts and computer-based clients.
 
 > This is a repository under construction!
 
@@ -13,9 +13,11 @@ As with the original "Remete" host and client, and my "Gatekeeper" ("Házmester"
 Components:
 | Name                    | Description |
 | ----------------------- | --------------------------------------------------------------------------------------------- |
-| Gatekeeper (Házmester)  | Remote site management hardware and software. The outermost circle that includes power management, a mechanical safeguard against lightning damage, data acquisition from environmental sensors, etc. |
-| Eremite (Remete2)       | "The" remote control hardware and software (radios, antennas, rotators, etc.), the namegiver. |
-| Friar (Szőrzetes)       | Client-side software and optionally some hardware as well, perhaps for physical controls attached to their computers. This is the new system, which is in the planning phase in case the old one becomes obsolete or is no longer maintainable for any reason. |
+| Gatekeeper (Házmester)  | A web-based multi-user and secure remote site management firmware and hardware using modern encryption and living communication channels (secure WebSockets). This is the outermost circle nearest to the router that includes power management using opto-isolated relays, a mechanical safeguard against lightning damage, analog and digital data acquisition from environmental sensors, etc. (Its earlier version is called: The Bridge. It could only turn relays on and off, and its web page had to be manually refreshed.) The Gatepeeker is an ESP32-S3 board that is programmed using the ESP-IDF CLI environment, but Platformio.ini is available if needed. The first version of this solution was developed remotely and worked successfully at the home of a fellow ham radio operator in Slovakia. Sadly, he passed away in February 2026. Rest in peace, Johhny. |
+| <blockquote>"The Bridge"</blockquote> | <blockquote>The old web-based relay remote switching application. It is essentially an example from the development tools of an old ESP32 board. It is only partially documented here.</blockquote> |
+| <blockquote>"Remete-III"</blockquote> | <blockquote>Despite its name, this is the old system developed by our oldest member, Karcsi (HA5BVK). This system consists of a server box that contains a TCP/IP-capable PIC, numerous of opto-isolated SPI I/O chips for the relay matrix for our antenna system, tunneled RS-232 connections, and analog inputs from the antenna rotators. The client side is a Visual Basic 4 application. Since we don't have time to document a system that is already up and running, that we won't further develop, but rather replace, only partial information about these units and their communication is provided here.</blockquote> |
+| Eremite (Remete2)       | The host side of the remote control system. A standalone host, a box and its hardware and firmware for the above mentioned radios, antennas, rotators, etc.), the namegiver. |
+| Friar (Szőrzetes)       | Complete client-side solution for the host above, multi-platform software and optionally some hardware as well, perhaps for physical controls attached to the clients' computers. This will be the new system, which is in the planning phase in case the old one becomes obsolete or is no longer maintainable for any reason. |
 | <ul><li>Intermediary</li></ul> | <ul><li>Eremite (Remete2) client service. Part of the Friar.</li></ul> |
 | <ul><li>Visionary</li></ul> | <ul><li>Eremite (Remete2) client UI applications. Part of the Friar.</li></ul> |
 | Developer Documentation | Public documentation can be found at: https://github.com/ha3flt/remete2/wiki/ |
