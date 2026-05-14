@@ -3,6 +3,8 @@
 
 > This is a repository under construction!
 
+#### A magyar dokumentáció a wiki oldalakon megtalálható: https://github.com/ha3flt/remete2/wiki <img width=32px src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Flag_of_Hungary.svg" alt="Hungarian flag"/>
+
 The name and theme stem from a Hungarian play on words, based on the similarity between the words "remote" and "eremite" (hermit), which is "remete" in Hungarian. *These are just—hopefully—playful and amusing puns; they have nothing to do with any religious beliefs we may hold.* Earlier, we used the word "remete" to refer to both the microcontroller-based, remotely controlled server box equipped with relays and sensors, and the client software developed for Windows. Now, they have different names.
 
 The first remote control that made it possible to use radios and antennas of our radio amateur (ham) club station from a remote location was developed by our oldest member, Karcsi (HA5BVK) and has been in excellent working order for a long time. The name "Remete" is his invention, and we still use it as a tribute to him. This is the reason why I also have taken the names of further elements of this system from that area.
